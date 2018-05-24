@@ -1,0 +1,21 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}<!-- Check authentication-->
+  Hi {{ user.username }}! <!-- Acknowledge-->
+    <form action="submit" method="post"><!--This defines a HTML form to take user input-->
+    {% csrf_token %}
+        {{ form }}
+        <p></p>Enter command<br>
+        <input type="text" name="info"><br>
+        <input type="submit" value="Run"> <!--This will search urls.py for submit-->
+    </form>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
+{% endblock %}
