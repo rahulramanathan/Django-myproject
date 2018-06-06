@@ -1,11 +1,14 @@
-from django.shortcuts import render
+#from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_protect
+#from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
-from django.template import RequestContext
-from myapp.forms import *
-from django.http import HttpResponseRedirect
+#from django.template import RequestContext
+#from myapp.forms import *
+#from django.http import HttpResponseRedirect
+from django.views import generic
+from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 def submit(request):
     info = request.POST['info']
@@ -18,3 +21,8 @@ def home(request):
         'home.html',
         {'user': request.user}
     )
+
+class SignUp(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'signup.html'
