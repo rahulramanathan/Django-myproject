@@ -9,11 +9,31 @@ from django.shortcuts import render_to_response
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
+import netmiko
 # Create your views here.
 def submit(request):
-    info = request.POST['info']
+    command = request.POST['info']
     #here add code so that response from router is printed
-    return HttpResponse(info+'-NetmikoOutput Expected Here')
+    try:
+        net_connect = netmiko.ConnectHandler(
+            device_type='cisco_ios',
+            ip='192.168.1.10',
+            username='cisco',
+            password='cisco',
+            # port=22,
+            # global_delay_factor=2
+        )
+        net_connect.enable()
+        #print('Connection successful')
+        #print(net_connect)
+        result = net_connect.send_command(command)
+        #print(result)
+        net_connect.disconnect()
+        return HttpResponse(result.format())
+    except netmiko.NetMikoTimeoutException as e:  # router getting timed out
+        print(e)
+    except netmiko.NetMikoAuthenticationException as e:
+        print('AuthException')
 
 @login_required
 def home(request):
