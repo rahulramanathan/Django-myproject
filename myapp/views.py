@@ -14,7 +14,7 @@ from .netmikocode import fn
 def submit(request):
     command = request.POST['info']
     #here add code so that response from router is printed
-    return HttpResponse(fn(command))
+    return HttpResponse(fn(command), content_type='text/plain')
 
 @login_required
 def home(request):
