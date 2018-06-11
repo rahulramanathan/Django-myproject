@@ -120,3 +120,8 @@ STATIC_URL = '/static/'
 django.contrib.auth.LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+#email configurations for password reset feature
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH =os.path.join(BASE_DIR, 'sent_emails')
